@@ -1,48 +1,76 @@
-# **Thema:** Erstellen einer ToDo-Applikation mit Markdown, Git, GitHub und Docker
+# ToDo-Applikation mit Docker
 
-In dieser Abschlussaufgabe werden alle erlernten Fähigkeiten in den Bereichen **Markdown**, **Git**, **GitHub** und **Docker** kombiniert. Die Aufgabe besteht darin, eine ToDo-Applikation zu erstellen und diese in einem Docker-Container bereitzustellen.
+Diese Anleitung beschreibt Schritt für Schritt, wie du die ToDo-Applikation auf deinem Rechner einrichtest, in Docker ausführst und eine persistente Datenbank konfigurierst.
 
-### **Aufgabenstellung:**
+---
 
-1. **GitHub-Fork erstellen:**
-   - Erstelle einen **Fork** des folgenden GitHub-Repositories: [docker-nodejs-sample](https://github.com/ICT-BLJ/docker-nodejs-sample).
-   - Clone deinen Fork lokal auf deinen Computer.
+## 1. Fork erstellen
+1. Das originale GitHub-Repository öffnen: [docker-nodejs-sample](https://github.com/ICT-BLJ/docker-nodejs-sample)  
+2. Oben rechts auf **Fork** klicken.  
+3. Optional kannst du den Namen deines Forks anpassen.  
+4. Auf **Fork erstellen** klicken, um das Repository in deinem eigenen GitHub-Account zu speichern.  
+5. Der Fork ist nun bereit, lokal geklont zu werden.
 
-2. **Erstellen einer README-Datei in Markdown:**
-   - Erstelle eine **README.md** Datei im Root-Verzeichnis des Projekts.
-   - Die README soll alle Schritte zur **Installation des Projekts** enthalten. Dazu gehören:
-     - Klonen des Repositories
-     - Installation der notwendigen Pakete
-     - Docker-Konfiguration und -Installation
-     - Starten der Applikation in einem Docker-Container
-   - Nutze [Markdown](https://www.markdownguide.org/cheat-sheet/) für die Struktur und Formatierung der Datei.
+---
 
-3. **Dokumentation der Vorgehensweise:**
-   - Verfasse eine vollständige **Dokumentation in Word**, in der die Arbeitsschritte beschrieben werden. Diese Schritte sind:
-     - Klonen des Repositories
-     - Einrichtung der Entwicklungsumgebung
-     - Erstellung der README.md
-     - Verwendung von Git (Commit, Push)
-     - Erstellung und Nutzung von Docker-Containern
-   - Verwende die während des Office-Kurses erarbeiteten Kenntnisse für das Erstellen dieses Dokuments.
+## 2. Repository lokal klonen
+1. Stelle sicher, dass Git Bash auf deinem Rechner installiert ist.  
+2. Wähle einen Ordner aus, in dem du den Repository-Clone speichern möchtest.  
+3. Öffne Git Bash und navigiere in diesen Ordner in welchem du das ganze haben möchtest (bsp.):  
+   ```bash
+   cd C:\Abschluss_doks
 
-4. **Dockerize das Node.js-Projekt:**
-   - Verfolge die Anleitung unter [docs.docker.com](https://docs.docker.com/guides/language/nodejs/containerize/) ab dem Schritt **"Initialize Docker assets"**.
-   - Dein Ziel ist es, das Projekt in einem Docker-Container lauffähig zu machen, sodass am Ende eine **ToDo-Applikation** in einem Docker-Container bereitsteht.
+## 3. Dockeer einrichten 
+1.	Docker Desktop öffnen
+2.	Terminal öffnen und ins Projektverzeichnis wechseln
+3.	Docker initialisieren:
+-	docker init
+4.	Fragen beantworten:
+-	Plattform: Node
+-	Node-Version: 18.0.0
+-	Package-Manager: npm
+-	Startkommando: node src/index.js
+-	Port: 3000
+5.	Container bauen und starten:
 
-5. **Git-Workflows:**
-   - Arbeite mit **Git**, um Änderungen regelmäßig zu committen und auf GitHub zu pushen.
-   - Verwende sinnvolle Commit-Nachrichten, um deinen Fortschritt zu dokumentieren.
-   - Stelle sicher, dass dein finaler Stand auf GitHub vorhanden ist.
+        docker compose up --build
+   
 
-6. **Abgabe:**
-   - **Dokumentation:** Lade die erstellte Word-Dokumentation (inkl. Screenshots und Beschreibung der Schritte) in dein Repository hoch.
-   - **GitHub-Link:** Stelle den Link zu deinem GitHub-Repository bereit, das den finalen Stand des Projekts enthält.
+## 4. Fehlerbehebung
+1.	Tritt ein Fehler beim Bauen auf, Dockerfile anpassen:
+-  NODE_VERSION=18.0.0
+-	FROM node:${NODE_VERSION}-alpine
+2.  Ersetzt denn oberen Code durch: 
+-  ARG NODE_VERSION=18
+-  FROM node:${NODE_VERSION}
+-	Änderungen speichern und Container erneut starten:
+-	docker compose up --build
+-	Browser öffnen: http://localhost:3000
+    
+## 5. Datenbank einrichten
+1.	compose.yaml anpassen (Datenbankservice, Volumes, Secrets)
+2.	Neuen Ordner db erstellen
+3.	Datei password.txt im Ordner db anlegen
+-	Passwort ohne Sonderzeichen eintragen
+-	Keine Leerzeilen oder Umbrüche
+4.	Alle Änderungen speichern
+5.	Container erneut starten:
+6.	docker compose up --build
+7.	Anwendung testen:
+-	ToDo-Einträge hinzufügen
+-	Container stoppen: Ctrl + C
+-	Container entfernen:
+-	docker compose rm
+-	Container erneut starten:
+-	docker compose up --build
+-	Prüfen, ob Daten erhalten bleiben
 
-### **Ziele der Aufgabe:**
-- Anwendung und Vertiefung von Git und GitHub.
-- Verfassen einer strukturierten Anleitung mit Markdown.
-- Containerisieren einer Node.js-Anwendung mit Docker.
-- Dokumentation des gesamten Prozesses in einem Word-Dokument.
-  
-Viel Erfolg bei der Umsetzung!
+## 6. Zusammenfassung
+-	Fork erstellt und lokal geklont
+-	Docker eingerichtet und Container gebaut
+-	Fehler im Dockerfile behoben, falls notwendig
+-	Datenbank konfiguriert
+-	ToDo-Applikation erfolgreich getestet
+
+## Notwndige Pakete 
+- Doker Desktop 
